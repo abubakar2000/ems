@@ -1,4 +1,4 @@
-import QuoteCreator from '../../pages/quotation/QuoteCreator';
+import QuotesList from '../../pages/quotation/QuotesList';
 import { Route, Routes } from 'react-router-dom';
 import AppRoutes from './AppRoutes';
 

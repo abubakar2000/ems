@@ -14,7 +14,11 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@ems/shared": ["source/shared/src/index.ts"],
+      "@solutionave/shared": ["source/shared/src/index.ts"],
+      "@solutionave/theme": ["source/theme/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
