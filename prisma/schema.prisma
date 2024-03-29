@@ -12,3 +12,47 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Taxes {
+  name       String @id
+  rate       Float? @default(0)
+  percentage Float  @default(0)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+model Quotation {
+  id        String    @id @default(cuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+
+  title       String
+  description String
+  // total purchase rate = sum of all purchaseRatePerUnit * quantity
+  // total sale rate = sum of all saleRatePerUnit * quantity
+  // total sale tax = sum of all total sale tax
+  // total sale amount = total sale rate + total sale tax
+  // total profit = total sale amount - total purchase rate
+  // profit percentage = (total profit / total sale amount) * 100
+  lineItems   QuotationLineItem[]
+}
+
+model QuotationLineItem {
+  id        String    @id @default(cuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+
+  title               String
+  description         String
+  purchaseRatePerUnit Float
+  quantity            Int
+  // purchase rate total =  purchaseRatePerUnit * quantity
+  unit                String
+  saleRatePerUnit     Float
+  // sale rate total = saleRatePerUnit * quantity
+  // unit sale tax = saleRatePerUnit * saleTaxRate (13%)
+  // total sale tax = unit sale tax * quantity
+  Quotation           Quotation? @relation(fields: [quotationId], references: [id])
+  quotationId         String?
+}
