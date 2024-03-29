@@ -27,6 +27,9 @@ model Quotation {
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
 
+  clientName         String
+  complaintNumber    String
+  branchName         String
   title              String
   description        String
   // total purchase rate = sum of all purchaseRatePerUnit * quantity

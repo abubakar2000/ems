@@ -1,7 +1,12 @@
 import { create, props } from '@stylexjs/stylex';
 import { DataTable, Modal } from '@solutionave/theme';
+import CreateQuote from './forms/CreateQuote';
+import { useState } from 'react';
 
 const QuotesList = () => {
+  const [show, setShow] = useState(true);
+  const toggleModal = () => setShow(!show);
+
   const quotes = [
     {
       id: 1,
@@ -19,8 +24,13 @@ const QuotesList = () => {
 
   return (
     <div {...props(styles.base)}>
-      <Modal triggerLabel="Add new" modalTitle="Create a Quote">
-        <div>Modal content</div>
+      <Modal
+        triggerLabel="Add new"
+        modalTitle="Create a Quote"
+        show={show}
+        toggleModal={toggleModal}
+      >
+        <CreateQuote onCancel={toggleModal} />
       </Modal>
       <DataTable data={quotes} />
     </div>
