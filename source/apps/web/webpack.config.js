@@ -2,7 +2,6 @@ const { NxWebpackPlugin } = require('@nx/webpack');
 const { NxReactWebpackPlugin } = require('@nx/react');
 const { join } = require('path');
 const StylexPlugin = require('@stylexjs/webpack-plugin');
-const { argv } = require('process');
 
 module.exports = {
   output: {

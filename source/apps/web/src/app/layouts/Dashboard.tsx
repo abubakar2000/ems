@@ -85,6 +85,7 @@ const styles = create({
   },
   contentContainer: {
     padding: '10pt',
+    flex: 1,
   },
   activeRouteLabel: {
     fontSize: '20pt',

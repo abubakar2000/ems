@@ -1,23 +1,28 @@
 {
-  "extends": ["plugin:@nx/react", "../../../.eslintrc.json","@stylexjs"],
+  "extends": [
+    "plugin:@nx/react",
+    "../../../.eslintrc.json",
+    "@stylexjs",
+    "../../../.eslintrc.base.json"
+  ],
   "ignorePatterns": ["!**/*"],
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "rules": {
-        "@stylexjs/valid-styles": "error",
+        "@stylexjs/valid-styles": "error"
       }
     },
     {
       "files": ["*.ts", "*.tsx"],
       "rules": {
-        "@stylexjs/valid-styles": "error",
+        "@stylexjs/valid-styles": "error"
       }
     },
     {
       "files": ["*.js", "*.jsx"],
       "rules": {
-        "@stylexjs/valid-styles": "error",
+        "@stylexjs/valid-styles": "error"
       }
     }
   ]
