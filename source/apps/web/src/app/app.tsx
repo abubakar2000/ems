@@ -1,23 +1,19 @@
 import * as stylex from '@stylexjs/stylex';
+import AppRouter from './router/main/AppRouter';
+import Dashboard from './layouts/Dashboard';
 
 const styles = stylex.create({
   base: {
-    fontSize: 30,
-    color: 'yellow',
-    backgroundColor: 'black',
-  },
-  highlighted: {
-    ':hover': {
-      backgroundColor: 'blue',
-    },
-    backgroundColor: 'red',
+    userSelect: 'none',
   },
 });
 
 export function App() {
   return (
-    <div {...stylex.props(styles.base, styles.highlighted)}>
-      {JSON.stringify(stylex.props(styles.base).className)}
+    <div {...stylex.props(styles.base)}>
+      <Dashboard>
+        <AppRouter />
+      </Dashboard>
     </div>
   );
 }

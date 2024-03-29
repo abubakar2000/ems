@@ -2,7 +2,9 @@
   "name": "@ems/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "dev": "nx serve web"
+  },
   "private": true,
   "devDependencies": {
     "@babel/core": "^7.14.5",
