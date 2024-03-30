@@ -34,7 +34,7 @@ export function Modal({
       </div>
       <div
         className={clsx([
-          'absolute top-0 left-0 right-0 bottom-0 backdrop-blur-md',
+          'absolute top-0 left-0 right-0 bottom-0 backdrop-blur-md w-screen overflow-hidden',
           'bg-white bg-opacity-50 z-10 duration-300 transition-all ease-in',
           show ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-200',
         ])}

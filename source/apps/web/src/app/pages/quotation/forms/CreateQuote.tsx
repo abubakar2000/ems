@@ -2,25 +2,55 @@ import {
   IQuotation,
   IQuotationLineItem,
   calculatedQuotationHeader,
+  calculatedQuotationLevelHeaders,
 } from '@ems/shared';
 import { create, props } from '@stylexjs/stylex';
-import React, { FC, useCallback, useMemo, useState } from 'react';
+import { FC, useCallback, useMemo, useState } from 'react';
 import { Button } from 'source/theme/src/lib/Button';
 import { IoMdArrowForward, IoMdArrowBack } from 'react-icons/io';
-import { DataTable, LabledDivider, NumberViewer } from '@solutionave/theme';
+import {
+  DataTable,
+  LabledDivider,
+  Loader,
+  NumberViewer,
+} from '@solutionave/theme';
+import { useCreateQuotationMutation } from '../../../data/quotation/quotation.api';
 
 interface Props {
   onCancel?: () => void;
 }
 
 const CreateQuote: FC<Props> = ({ onCancel }) => {
+  const [createQuotation, { isLoading, data, isError, isSuccess }] =
+    useCreateQuotationMutation();
   const [newQuotation, setNewQuotation] = useState<IQuotation>({
     clientName: 'JS Bank',
     complaintNumber: '19976',
     branchName: 'North Karachi Industrial Area JSBL',
     title: 'Branch Maintenance and Renovation',
     description: 'NA',
-    quotationLineItems: [],
+    incomeTaxRate: 9,
+    salesTaxRecovery: 45,
+    quotationLineItems: [
+      {
+        title: 'Pain Job',
+        description: '',
+        unit: 'Job',
+        quantity: 2247,
+        purchasePricePerUnit: 20,
+        salePricePerUnit: 39.823,
+        saleTaxRate: 13,
+      },
+      {
+        title: 'Deco Job',
+        description: '',
+        unit: 'Job',
+        quantity: 2,
+        purchasePricePerUnit: 100,
+        salePricePerUnit: 120,
+        saleTaxRate: 13,
+      },
+    ],
   });
   const [addLineItems, setAddLineItems] = useState(false);
   const [newLineItem, setNewLineItem] = useState<IQuotationLineItem>({
@@ -64,6 +94,12 @@ const CreateQuote: FC<Props> = ({ onCancel }) => {
     }
   };
 
+  const quotationHeaders = useMemo(() => {
+    return {
+      ...calculatedQuotationHeader(newLineItem),
+    };
+  }, [newLineItem]);
+
   const lineItems = useMemo(() => {
     return newQuotation.quotationLineItems?.map((lineItem, index) => {
       const item = calculatedQuotationHeader(lineItem);
@@ -86,63 +122,95 @@ const CreateQuote: FC<Props> = ({ onCancel }) => {
     });
   }, [newQuotation]);
 
-  const onSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log(newQuotation);
-    alert('Submitted');
+  const onSubmitForm = () => {
+    createQuotation(newQuotation);
   };
-
-  const quotationHeaders = useMemo(() => {
-    return {
-      ...calculatedQuotationHeader(newLineItem),
-    };
-  }, [newLineItem]);
 
   return (
     <div {...props(styles.base)}>
+      <Loader visible={isLoading} />
+      {isError && <div>Error</div>}
+      {isSuccess && <div>Success</div>}
+      <div className="text-red">{JSON.stringify(data)}</div>
       <form onSubmit={onSubmitForm} {...props(styles.form)}>
         {!addLineItems && (
           <>
             <h1 {...props(styles.title)}>Create Quotation</h1>
-            <input
-              type="text"
-              placeholder="Client Name"
-              value={newQuotation.clientName}
-              onChange={(e) =>
-                setNewQuotation({ ...newQuotation, clientName: e.target.value })
-              }
-              {...props(styles.input)}
-            />
-            <input
-              type="text"
-              placeholder="Compliant Number"
-              value={newQuotation.complaintNumber}
-              onChange={(e) =>
-                setNewQuotation({
-                  ...newQuotation,
-                  complaintNumber: e.target.value,
-                })
-              }
-              {...props(styles.input)}
-            />
-            <input
-              type="text"
-              placeholder="Branch Name"
-              value={newQuotation.branchName}
-              onChange={(e) =>
-                setNewQuotation({ ...newQuotation, branchName: e.target.value })
-              }
-              {...props(styles.input)}
-            />
-            <input
-              type="text"
-              placeholder="Job Title"
-              value={newQuotation.title}
-              onChange={(e) =>
-                setNewQuotation({ ...newQuotation, title: e.target.value })
-              }
-              {...props(styles.input)}
-            />
+            <div {...props(styles.row)}>
+              <input
+                type="text"
+                placeholder="Client Name"
+                value={newQuotation.clientName}
+                onChange={(e) =>
+                  setNewQuotation({
+                    ...newQuotation,
+                    clientName: e.target.value,
+                  })
+                }
+                {...props(styles.input)}
+              />
+              <input
+                type="text"
+                placeholder="Job Title"
+                value={newQuotation.title}
+                onChange={(e) =>
+                  setNewQuotation({ ...newQuotation, title: e.target.value })
+                }
+                {...props(styles.input)}
+              />
+            </div>
+            <div {...props(styles.row)}>
+              <input
+                type="text"
+                placeholder="Compliant Number"
+                value={newQuotation.complaintNumber}
+                onChange={(e) =>
+                  setNewQuotation({
+                    ...newQuotation,
+                    complaintNumber: e.target.value,
+                  })
+                }
+                {...props(styles.input)}
+              />
+              <input
+                type="text"
+                placeholder="Branch Name"
+                value={newQuotation.branchName}
+                onChange={(e) =>
+                  setNewQuotation({
+                    ...newQuotation,
+                    branchName: e.target.value,
+                  })
+                }
+                {...props(styles.input)}
+              />
+            </div>
+            <div {...props(styles.row)}>
+              <input
+                type="number"
+                placeholder="Income Tax rate (%)"
+                value={newQuotation.incomeTaxRate || ''}
+                onChange={(e) =>
+                  setNewQuotation({
+                    ...newQuotation,
+                    incomeTaxRate: Number(e.target.value),
+                  })
+                }
+                {...props(styles.input)}
+              />
+              <input
+                type="number"
+                placeholder="GST Recovery"
+                value={newQuotation.salesTaxRecovery || ''}
+                onChange={(e) =>
+                  setNewQuotation({
+                    ...newQuotation,
+                    salesTaxRecovery: Number(e.target.value),
+                  })
+                }
+                {...props(styles.input)}
+              />
+            </div>
             <textarea
               placeholder="Job Description"
               value={newQuotation.description}
@@ -336,12 +404,21 @@ const CreateQuote: FC<Props> = ({ onCancel }) => {
               Add Tasks <IoMdArrowForward size={20} />
             </Button>
           ) : (
-            <Button className="w-full bg-blue-600">Create</Button>
+            <Button
+              className="w-full bg-blue-600"
+              attributes={{ onClick: onSubmitForm }}
+            >
+              Create
+            </Button>
           )}
         </div>
       </form>
-      <div {...props(styles.tableView)}>
-        <DataTable data={lineItems} onClick={onClickTableCell} />
+      <div className="w-full max-w-[1200pt]">
+        <div {...props(styles.tableView)}>
+          <DataTable data={lineItems} onClick={onClickTableCell} />
+          <br />
+          <DataTable data={[calculatedQuotationLevelHeaders(newQuotation)]} />
+        </div>
       </div>
     </div>
   );
@@ -358,6 +435,7 @@ const styles = create({
     gap: 10,
     minHeight: '80vh',
     borderRadius: 20,
+    padding: '20pt',
     backgroundColor: 'rgba(255,255,255,0.7)',
     boxShadow: '0px 0px 10px gainsboro',
   },
@@ -405,7 +483,6 @@ const styles = create({
     opacity: 0.7,
   },
   tableView: {
-    width: '100%',
     overflow: 'auto',
     padding: 10,
     borderRadius: 10,

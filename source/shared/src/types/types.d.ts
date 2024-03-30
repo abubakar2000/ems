@@ -9,6 +9,8 @@ export interface NullableDefaults {
 
 export interface IQuotation extends NullableDefaults, Quotation {
   quotationLineItems: IQuotationLineItem[];
+  incomeTaxRate?: number | null;
+  salesTaxRecovery?: number | null;
 }
 
 export interface IQuotationLineItem

@@ -1,5 +1,6 @@
 import Fastify from 'fastify';
 import { app } from './app/app';
+import FastifyCors from '@fastify/cors';
 import prismaClient from './app/clients/prisma.client';
 
 const protocol = process.env.PROTOCOL ?? 'http';
@@ -13,6 +14,9 @@ const server = Fastify({
 
 // Register your application as a normal plugin.
 server.register(app);
+server.register(FastifyCors, {
+  origin: '*',
+});
 
 // Start listening.
 server.listen({ port, host }, (err) => {

@@ -71,7 +71,6 @@ export function DataTable<T>({ data, onClick }: Props<T>) {
               ))}
             </tbody>
           </table>
-          <div className={clsx(['p-3 flex justify-end'])}>Pagination here</div>
         </>
       )}
     </div>
