@@ -4,7 +4,13 @@ import { IQuotation } from '@ems/shared';
 
 export default async (instance: FastifyInstance) => {
   instance.get('/', async (request, reply) => {
-    return reply.status(200).send({ hello: 'world' });
+    const prisma = prismaClient();
+    const quotations = await prisma.quotation.findMany({
+      include: {
+        quotationLineItems: true,
+      },
+    });
+    return reply.status(200).send(quotations);
   });
 
   instance.post('/', async (request, reply) => {

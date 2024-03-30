@@ -24,33 +24,14 @@ const CreateQuote: FC<Props> = ({ onCancel }) => {
   const [createQuotation, { isLoading, data, isError, isSuccess }] =
     useCreateQuotationMutation();
   const [newQuotation, setNewQuotation] = useState<IQuotation>({
-    clientName: 'JS Bank',
-    complaintNumber: '19976',
-    branchName: 'North Karachi Industrial Area JSBL',
-    title: 'Branch Maintenance and Renovation',
-    description: 'NA',
-    incomeTaxRate: 9,
-    salesTaxRecovery: 45,
-    quotationLineItems: [
-      {
-        title: 'Pain Job',
-        description: '',
-        unit: 'Job',
-        quantity: 2247,
-        purchasePricePerUnit: 20,
-        salePricePerUnit: 39.823,
-        saleTaxRate: 13,
-      },
-      {
-        title: 'Deco Job',
-        description: '',
-        unit: 'Job',
-        quantity: 2,
-        purchasePricePerUnit: 100,
-        salePricePerUnit: 120,
-        saleTaxRate: 13,
-      },
-    ],
+    clientName: '',
+    complaintNumber: '',
+    branchName: '',
+    title: '',
+    description: '',
+    incomeTaxRate: null,
+    salesTaxRecovery: null,
+    quotationLineItems: [],
   });
   const [addLineItems, setAddLineItems] = useState(false);
   const [newLineItem, setNewLineItem] = useState<IQuotationLineItem>({
@@ -129,9 +110,8 @@ const CreateQuote: FC<Props> = ({ onCancel }) => {
   return (
     <div {...props(styles.base)}>
       <Loader visible={isLoading} />
-      {isError && <div>Error</div>}
-      {isSuccess && <div>Success</div>}
-      <div className="text-red">{JSON.stringify(data)}</div>
+      {isError && <div className="text-sm text-red-50">An Error Occurred</div>}
+      {isSuccess && <div className="text-sm text-green-500">Saved!</div>}
       <form onSubmit={onSubmitForm} {...props(styles.form)}>
         {!addLineItems && (
           <>
@@ -383,7 +363,7 @@ const CreateQuote: FC<Props> = ({ onCancel }) => {
             attributes={{
               onClick: addLineItems ? () => setAddLineItems(false) : onCancel,
             }}
-            className={'bg-neutral-500 w-full'}
+            className={'bg-neutral-500 w-full flex-1'}
           >
             {addLineItems ? (
               <>
@@ -399,13 +379,13 @@ const CreateQuote: FC<Props> = ({ onCancel }) => {
               attributes={{
                 onClick: () => setAddLineItems(true),
               }}
-              className="w-full bg-blue-600"
+              className="w-full bg-blue-600 flex-1"
             >
               Add Tasks <IoMdArrowForward size={20} />
             </Button>
           ) : (
             <Button
-              className="w-full bg-blue-600"
+              className="w-full bg-blue-600 flex-1"
               attributes={{ onClick: onSubmitForm }}
             >
               Create

@@ -11,8 +11,15 @@ export const quotationApi = createApi({
         body,
       }),
     }),
+    getQuotations: build.query({
+      query: () => ({
+        url: '/quotation',
+        method: 'GET',
+      }),
+    }),
   }),
   tagTypes: ['Quotation'],
 });
 
-export const { useCreateQuotationMutation } = quotationApi;
+export const { useCreateQuotationMutation, useGetQuotationsQuery } =
+  quotationApi;

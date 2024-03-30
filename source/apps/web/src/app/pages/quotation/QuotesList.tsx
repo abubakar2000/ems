@@ -1,38 +1,44 @@
 import { create, props } from '@stylexjs/stylex';
 import { DataTable, Modal } from '@solutionave/theme';
 import CreateQuote from './forms/CreateQuote';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+import { useGetQuotationsQuery } from '../../data/quotation/quotation.api';
+import { Button } from 'source/theme/src/lib/Button';
+import { IQuotation } from '@ems/shared';
 
 const QuotesList = () => {
-  const [show, setShow] = useState(true);
-  const toggleModal = () => setShow(!show);
+  const [showCreationForm, setShowCreationForm] = useState(false);
+  const toggleModal = () => setShowCreationForm(!showCreationForm);
+  const { isLoading, data, refetch } = useGetQuotationsQuery({});
 
-  const quotes = [
-    {
-      id: 1,
-      customer: 'John Doe',
-      amount: 1000,
-      date: '2021-01-01',
-    },
-    {
-      id: 2,
-      customer: 'Jane Doe',
-      amount: 2000,
-      date: '2021-01-02',
-    },
-  ];
+  const quotes = useMemo(() => {
+    return data?.map((item: any) => {
+      return {
+        complaintNumber: item.complaintNumber,
+        clientName: item.clientName,
+        branchName: item.branchName,
+        title: item.title,
+        description: item.description,
+        quotationLineItems: item.quotationLineItems,
+        Edit: '_EDIT_',
+        Delete: '_DELETE_',
+        View: '_VIEW_',
+      } as IQuotation;
+    });
+  }, [data]);
 
   return (
     <div {...props(styles.base)}>
-      <div>
+      <div className="flex justify-end gap-2 items-center">
         <Modal
           triggerLabel="Add new"
           modalTitle="Create a Quote"
-          show={show}
+          show={showCreationForm}
           toggleModal={toggleModal}
         >
           <CreateQuote onCancel={toggleModal} />
         </Modal>
+        <Button attributes={{ onClick: refetch }}>Reload</Button>
       </div>
       <DataTable data={quotes} />
     </div>

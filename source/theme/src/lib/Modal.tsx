@@ -20,7 +20,7 @@ export function Modal({
 }: Props) {
   return (
     <>
-      <div className="flex justify-end items-center">
+      <>
         {triggerLabel && (
           <Button
             className="bg-blue-600 flex-[0] whitespace-nowrap"
@@ -31,7 +31,7 @@ export function Modal({
             {triggerLabel}
           </Button>
         )}
-      </div>
+      </>
       <div
         className={clsx([
           'absolute top-0 left-0 right-0 bottom-0 backdrop-blur-md w-screen overflow-hidden',
