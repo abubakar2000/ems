@@ -19,7 +19,7 @@ export function Button({
       {...attributes}
       type="button"
       className={clsx([
-        'uppercase hover:opacity-75 active:opacity-100 text-sm flex-1',
+        'uppercase hover:opacity-75 active:opacity-100 text-sm',
         'px-3 py-1 text-white rounded-md transition-all duration-300',
         'flex flex-row items-center justify-center gap-2',
         'hover:gap-4',
