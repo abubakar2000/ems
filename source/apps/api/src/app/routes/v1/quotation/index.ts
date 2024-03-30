@@ -1,6 +1,5 @@
 import { FastifyInstance } from 'fastify';
 import prismaClient from '../../../clients/prisma.client';
-import { Quotation } from '@prisma/client';
 import { IQuotation } from '@ems/shared';
 
 export default async (instance: FastifyInstance) => {
