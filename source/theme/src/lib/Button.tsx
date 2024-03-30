@@ -1,20 +1,33 @@
 import clsx from 'clsx';
-import React, { DOMAttributes } from 'react';
+import React, { ButtonHTMLAttributes, DOMAttributes } from 'react';
 
 interface Props {
-  attributes: DOMAttributes<HTMLButtonElement>;
-  children: React.ReactNode;
+  children?: React.ReactNode;
+  attributes?: ButtonHTMLAttributes<HTMLButtonElement>;
   className?: string;
+  disabled?: boolean;
 }
 
-export function Button({ attributes, children, className }: Props) {
+export function Button({
+  children,
+  className,
+  attributes,
+  disabled = false,
+}: Props) {
   return (
     <button
       {...attributes}
+      type="button"
       className={clsx([
-        'px-3 py-1 bg-purple-400 text-white rounded-md hover:bg-purple-500 active:bg-purple-600 transition-all duration-300' ||
-          className,
+        'uppercase hover:opacity-75 active:opacity-100 text-sm flex-1',
+        'px-3 py-1 text-white rounded-md transition-all duration-300',
+        'flex flex-row items-center justify-center gap-2',
+        'hover:gap-4',
+        className || 'bg-blue-600',
+        disabled && 'opacity-75',
       ])}
+      onClick={disabled ? undefined : attributes?.onClick}
+      disabled={disabled}
     >
       {children}
     </button>

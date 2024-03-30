@@ -60,7 +60,7 @@ const styles = create({
     fontSize: '17pt',
     fontWeight: 'bold',
     marginBottom: '10pt',
-    color: 'purple',
+    color: 'rgba(0,0,255,0.7)',
   },
   sidebarItem: {
     padding: '7pt',
@@ -77,10 +77,10 @@ const styles = create({
   },
   activeRoute: {
     paddingLeft: '15pt',
-    backgroundColor: 'purple',
+    backgroundColor: 'rgba(0,0,255,0.7)',
     color: 'white',
     ':hover': {
-      backgroundColor: 'purple',
+      backgroundColor: 'rgba(0,0,255,0.7)',
     },
   },
   contentContainer: {

@@ -23,14 +23,19 @@ model Taxes {
 }
 
 model Quotation {
-  id        String    @id @default(cuid())
+  id        Int       @id @default(autoincrement())
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
 
+  clientName         String
+  complaintNumber    String
+  branchName         String
   title              String
   description        String
-  // total purchase rate = sum of all purchaseRatePerUnit * quantity
-  // total sale rate = sum of all saleRatePerUnit * quantity
+  incomeTaxRate      Float?              @default(0.0)
+  salesTaxRecovery   Float?              @default(0.0)
+  // total purchase rate = sum of all purchasePricePerUnit * quantity
+  // total sale rate = sum of all salePricePerUnit * quantity
   // total sale tax = sum of all total sale tax
   // total sale amount = total sale rate + total sale tax
   // total profit = total sale amount - total purchase rate
@@ -39,20 +44,22 @@ model Quotation {
 }
 
 model QuotationLineItem {
-  id        String    @id @default(cuid())
+  id        Int       @id @default(autoincrement())
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
 
-  title               String
-  description         String
-  purchaseRatePerUnit Float
-  quantity            Int
-  // purchase rate total =  purchaseRatePerUnit * quantity
-  unit                String
-  saleRatePerUnit     Float
-  // sale rate total = saleRatePerUnit * quantity
-  // unit sale tax = saleRatePerUnit * saleTaxRate (13%)
+  title       String
+  description String
+  quantity    Int
+  unit        String
+
+  purchasePricePerUnit Float
+  // purchase rate total =  purchasePricePerUnit * quantity
+  salePricePerUnit     Float
+  saleTaxRate          Float?     @default(0.0)
+  // sale rate total = salePricePerUnit * quantity
+  // unit sale tax = salePricePerUnit * saleTaxRate (13%)
   // total sale tax = unit sale tax * quantity
-  quotation           Quotation? @relation(fields: [quotationId], references: [id])
-  quotationId         String?
+  quotation            Quotation? @relation(fields: [quotationId], references: [id])
+  quotationId          Int
 }

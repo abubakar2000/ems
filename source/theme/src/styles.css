@@ -2,7 +2,7 @@ table {
   @apply w-full;
 }
 thead {
-  @apply w-full border-b-2 border-b-purple-300;
+  @apply w-full border-b-2 border-b-blue-600 border-opacity-50;
 }
 th {
   @apply border text-start p-2 font-bold text-neutral-600 text-sm;
