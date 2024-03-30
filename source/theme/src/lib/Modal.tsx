@@ -23,6 +23,7 @@ export function Modal({
       <div className="flex justify-end items-center">
         {triggerLabel && (
           <Button
+            className="bg-blue-600 flex-[0] whitespace-nowrap"
             attributes={{
               onClick: toggleModal,
             }}

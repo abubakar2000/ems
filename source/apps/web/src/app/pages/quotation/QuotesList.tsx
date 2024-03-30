@@ -24,14 +24,16 @@ const QuotesList = () => {
 
   return (
     <div {...props(styles.base)}>
-      <Modal
-        triggerLabel="Add new"
-        modalTitle="Create a Quote"
-        show={show}
-        toggleModal={toggleModal}
-      >
-        <CreateQuote onCancel={toggleModal} />
-      </Modal>
+      <div>
+        <Modal
+          triggerLabel="Add new"
+          modalTitle="Create a Quote"
+          show={show}
+          toggleModal={toggleModal}
+        >
+          <CreateQuote onCancel={toggleModal} />
+        </Modal>
+      </div>
       <DataTable data={quotes} />
     </div>
   );

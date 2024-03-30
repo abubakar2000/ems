@@ -15,4 +15,10 @@ export interface IQuotationLineItem
   extends NullableDefaults,
     QuotationLineItem {
   quotation?: IQuotation;
+  quotationId?: number;
+
+  quantity?: number | null;
+  purchasePricePerUnit?: number | null;
+  salePricePerUnit?: number | null;
+  saleTaxRate?: number | null;
 }
